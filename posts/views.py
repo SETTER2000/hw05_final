@@ -91,14 +91,14 @@ def post_edit(request, username, post_id):
 def page_not_found(request, exception):
     return render(
         request,
-        "misc/404.html",
-        {"path": request.path},
+        'isc/404.html',
+        {'path': request.path},
         status=404
     )
 
 
 def server_error(request):
-    return render(request, "misc/500.html", status=500)
+    return render(request, 'misc/500.html', status=500)
 
 
 @login_required
@@ -121,7 +121,7 @@ def follow_index(request):
     username = User.objects.filter(id__in=authors)
     post_list = pagination_page(request, Post.objects.filter(
         author__in=username))
-    return render(request, "follow.html", {'page': post_list, 'follow': True})
+    return render(request, 'follow.html', {'page': post_list, 'follow': True})
 
 
 @login_required

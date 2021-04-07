@@ -141,7 +141,7 @@ class PostPagesTests(TestCase):
             text='Тестовый текст Tests',
             author=PostPagesTests.user,
             group=PostPagesTests.group,
-            image=SimpleUploadedFile(name=f'small.gif',
+            image=SimpleUploadedFile(name='small.gif',
                                      content=av.GIF_IMG,
                                      content_type='image/gif'))
 
@@ -195,7 +195,7 @@ class PostPagesTests(TestCase):
             response.context['text'].text: self.post.text,
             response.context['count_posts']: av.COUNT_OBJECTS,
             str(response.context['author']): PostPagesTests.user.username,
-            response.context["text"].image: self.post.image
+            response.context['text'].image: self.post.image
         }
         for value, expected in context.items():
             with self.subTest(value=value):
