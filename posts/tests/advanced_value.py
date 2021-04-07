@@ -19,9 +19,11 @@ ABOUT_TECH = reverse('about:tech')
 POST_NEW = reverse('posts:post_new')
 INDEX_URL = reverse('posts:index')
 GROUP_URL = reverse('posts:group_posts', kwargs={'slug': GROUP_SLUG})
-ADD_COMMENT_URL = reverse('posts:add_comment', kwargs={'username': AUTHOR, 'post_id': 1})
+ADD_COMMENT_URL = reverse('posts:add_comment',
+                          kwargs={'username': AUTHOR, 'post_id': 1})
 FOLLOWING_URL = reverse('posts:profile_follow', kwargs={'username': AUTHOR})
-UN_FOLLOWING_URL = reverse('posts:profile_unfollow', kwargs={'username': AUTHOR})
+UN_FOLLOWING_URL = reverse('posts:profile_unfollow',
+                           kwargs={'username': AUTHOR})
 FOLLOW_URL = reverse('posts:follow_index')
 INDEX_TPL = 'index.html'
 GROUP_TPL = 'group.html'
@@ -38,4 +40,5 @@ GIF_IMG = (
     b'\x02\x00\x01\x00\x00\x02\x02\x0C'
     b'\x0A\x00\x3B'
 )
-MEDIA_TEMP = settings.MEDIA_ROOT = tempfile.mkdtemp(dir=os.path.join(settings.BASE_DIR, 'media'))
+MEDIA_TEMP = settings.MEDIA_ROOT = tempfile.mkdtemp(
+    dir=os.path.join(settings.BASE_DIR, 'media'))

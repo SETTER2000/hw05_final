@@ -41,7 +41,8 @@ class PostURLTests(TestCase):
 
     def test_page_accessible_not_authorized_user(self):
         """Страницы доступны любому пользователю."""
-        url_exists = [av.INDEX_URL, av.GROUP_URL, av.ABOUT_AUTHOR, av.ABOUT_TECH]
+        url_exists = [av.INDEX_URL, av.GROUP_URL, av.ABOUT_AUTHOR,
+                      av.ABOUT_TECH]
         for link in url_exists:
             with self.subTest():
                 response = self.guest_client.get(link)

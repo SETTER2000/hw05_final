@@ -8,7 +8,6 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.core.cache import caches
 from yatube.settings import COUNT_PAGE
 from posts.models import Post, Group
 from . import advanced_value as av
@@ -44,7 +43,6 @@ class PostPagesTests(TestCase):
     user = None
     group = None
     cache_name = 'index_page'
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -211,32 +209,38 @@ class PostPagesTests(TestCase):
             author=PostPagesTests.user,
             group=PostPagesTests.group)
         response = self.authorized_client.get(av.INDEX_URL)
-        self.assertEqual(post.text, response.context.get('page').object_list[0].text)
+        self.assertEqual(post.text,
+                         response.context.get('page').object_list[0].text)
 
     def test_authorize_user_add_comment(self):
         """Только авторизированный пользователь может комментировать посты."""
         response = self.guest_client.get(av.ADD_COMMENT_URL)
-        self.assertRedirects(response, f'/auth/login/?next={av.ADD_COMMENT_URL}')
+        self.assertRedirects(response,
+                             f'/auth/login/?next={av.ADD_COMMENT_URL}')
 
     def test_authorize_user_add_del_following(self):
-        """Авторизованный пользователь может подписываться на других пользователей и удалять их из подписок."""
+        """Авторизованный пользователь может подписываться на других
+        пользователей и удалять их из подписок."""
         response = self.authorized_client.get(av.FOLLOWING_URL)
         self.assertRedirects(response, av.FOLLOW_URL)
         response = self.authorized_client.get(av.UN_FOLLOWING_URL)
         self.assertRedirects(response, av.FOLLOW_URL)
 
     def test_new_post_added_following(self):
-        """Новая запись пользователя появляется в ленте тех, кто на него подписан и не появляется в ленте тех,
-        кто не подписан на него."""
+        """Новая запись пользователя появляется в ленте тех, кто на него
+        подписан и не появляется в ленте тех, кто не подписан на него."""
         post = Post.objects.create(
             text='Тестовый текст',
             author=PostPagesTests.user,
             group=PostPagesTests.group)
-        response = self.authorized_client2.get(reverse('posts:profile_follow', kwargs={'username': av.AUTHOR}))
+        response = self.authorized_client2.get(
+            reverse('posts:profile_follow', kwargs={'username': av.AUTHOR}))
         self.assertRedirects(response, av.FOLLOW_URL)
         response = self.authorized_client2.get(av.FOLLOW_URL)
-        self.assertEqual(post.text, response.context.get('page').object_list[0].text)
+        self.assertEqual(post.text,
+                         response.context.get('page').object_list[0].text)
         response = self.authorized_client.get(av.FOLLOW_URL)
         if len(response.context.get('page').object_list) > 0:
-            self.assertEqual(post.text, response.context.get('page').object_list[0].text)
+            self.assertEqual(post.text,
+                             response.context.get('page').object_list[0].text)
 
