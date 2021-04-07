@@ -1,5 +1,5 @@
-from itertools import islice
 import shutil
+from itertools import islice
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.test import SimpleTestCase, override_settings
@@ -43,6 +43,7 @@ class PostPagesTests(TestCase):
     user = None
     group = None
     cache_name = 'index_page'
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -140,11 +141,9 @@ class PostPagesTests(TestCase):
             text='Тестовый текст Tests',
             author=PostPagesTests.user,
             group=PostPagesTests.group,
-            image=SimpleUploadedFile(
-                name=f'small.gif',
-                content=av.GIF_IMG,
-                content_type='image/gif'
-            ))
+            image=SimpleUploadedFile(name=f'small.gif',
+                                     content=av.GIF_IMG,
+                                     content_type='image/gif'))
 
         form_fields = [av.INDEX_URL, av.GROUP_URL, self.profile_url]
         for value in form_fields:
@@ -243,4 +242,3 @@ class PostPagesTests(TestCase):
         if len(response.context.get('page').object_list) > 0:
             self.assertEqual(post.text,
                              response.context.get('page').object_list[0].text)
-
