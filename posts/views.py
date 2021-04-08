@@ -128,7 +128,9 @@ def follow_index(request):
 def profile_follow(request, username):
     """Подписка на интересного автора."""
     user = get_object_or_404(User, username=username)
-    if request.user.id != user.id:
+    following = Follow.objects.filter(
+        user_id=request.user.id, author_id=user.id).count()
+    if request.user.id != user.id and following < 1:
         follow = Follow(user=request.user, author=user)
         follow.save()
     return redirect('posts:follow_index')
