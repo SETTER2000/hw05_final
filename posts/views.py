@@ -84,7 +84,8 @@ def post_edit(request, username, post_id):
         post.save()
         return redirect('posts:post', username=username, post_id=post_id)
     return render(
-        request, 'post_new.html', {'form': form, 'title': 'Редактировать',
+        request, 'post_new.html', {'form': form, 'post': post,
+                                   'title': 'Редактировать',
                                    'button': 'Сохранить'})
 
 
