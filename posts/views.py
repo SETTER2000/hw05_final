@@ -50,12 +50,14 @@ def post_view(request, username, post_id):
     user = get_object_or_404(User, username=username)
     post_list = Post.objects.filter(author=user)
     comment_list = Comment.objects.filter(post=post_id)
+    form = CommentForm(request.POST or None)
     post = Post.objects.get(pk=post_id)
     context = {
         'author': post.author,
         'text': post,
         'post_id': post.id,
         'comment_list': comment_list,
+        'form': form,
         'count_posts': post_list.count()}
     return render(request, 'post.html', context)
 
