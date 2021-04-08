@@ -4,7 +4,9 @@
 {% block title %}Моя подписка{% endblock %}
 {% block header %}<h1>Моя подписка</h1>{% endblock %}
 {% block content %}
-    {% include "includes/menu.html" %}
+    {% if user.is_authenticated %}
+       {% include "includes/menu.html" %}
+    {% endif %}
        {% for post in page %}
            {% include "includes/post_item.html" with post=post %}
        {% endfor %}

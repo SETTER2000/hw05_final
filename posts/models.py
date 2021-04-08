@@ -71,7 +71,7 @@ class Post(models.Model):
         db_table = 'posts_post'
         ordering = ('-pub_date',)
         verbose_name = 'post'
-        verbose_name_plural = 'сообщения'
+        verbose_name_plural = 'Посты'
 
 
 class Comment(models.Model):
@@ -96,17 +96,39 @@ class Comment(models.Model):
         auto_now_add=True,
         help_text='дата и время публикации комментария на сайте.')
 
+    def __str__(self):
+        return [f'author: {self.author}, '
+                f'post: {self.post}, '
+                f'created: {self.created}, '
+                f'text: {textwrap.wrap(self.text[:15])}']
+
+    class Meta:
+        db_table = 'comment'
+        verbose_name = 'comment'
+        ordering = ('-created',)
+        verbose_name_plural = 'Комментарий'
+
 
 class Follow(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        verbose_name='автор',
+        verbose_name='подписчик',
         help_text='Пользователь, который подписывается.',
         related_name='follower')
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        verbose_name='пост',
+        verbose_name='автор',
         help_text='Пользователь, на которого подписываются.',
         related_name='following')
+
+    def __str__(self):
+        return [f'user: {self.user}, '
+                f'author: {self.author}']
+
+    class Meta:
+        db_table = 'follow_author'
+        verbose_name = 'follow'
+        ordering = ('-author',)
+        verbose_name_plural = 'Подписки'
