@@ -91,7 +91,7 @@ def post_edit(request, username, post_id):
 def page_not_found(request, exception):
     return render(
         request,
-        'isc/404.html',
+        'misc/404.html',
         {'path': request.path},
         status=404
     )
@@ -128,8 +128,9 @@ def follow_index(request):
 def profile_follow(request, username):
     """Подписка на интересного автора."""
     user = get_object_or_404(User, username=username)
-    follow = Follow(user=request.user, author=user)
-    follow.save()
+    if request.user.id != user.id:
+        follow = Follow(user=request.user, author=user)
+        follow.save()
     return redirect('posts:follow_index')
 
 

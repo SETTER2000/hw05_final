@@ -3,7 +3,7 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls import handler404, handler500
-handler404 = 'osts.views.page_not_found'  # noqa
+handler404 = 'posts.views.page_not_found'  # noqa
 handler500 = 'posts.views.server_error'  # noqa
 
 urlpatterns = [
