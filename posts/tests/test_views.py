@@ -203,6 +203,12 @@ class PostPagesTests(TestCase):
 
     def test_cache_list_post_index_page(self):
         """Кэш для списка постов на главной"""
+        # Делаешь запрос к главной странице.
+        # Сохраняешь в переменную контент
+        # Создаешь новый пост.
+        # Снова обращаешься к главной странице.
+        # Снова берешь контент.
+        # Сравниваешь 2 контента.
         post = Post.objects.create(
             text='КЭШ и КЫШ',
             author=PostPagesTests.user,
